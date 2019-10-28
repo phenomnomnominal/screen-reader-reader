@@ -1,0 +1,59 @@
+{
+  "name": "screen-reader-reader",
+  "version": "0.1.0",
+  "description": "Node.js helper for getting screen reader output",
+  "main": "dist/src/index.js",
+  "typings": "dist/src/index.d.ts",
+  "author": "Craig Spence <craigspence0@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phenomnomnominal/screen-reader-reader"
+  },
+  "license": "MIT",
+  "bin": {
+    "screen-reader-reader": "./bin/screen-reader-reader.js"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run compile && npm run lint && npm run test",
+    "clean": "rimraf dist && rimraf reports",
+    "compile": "tsc",
+    "lint": "npm run lint:src && npm run lint:test",
+    "lint:src": "eslint 'src/**/*.ts'",
+    "lint:test": "eslint 'test/**/*.ts'",
+    "lint:fix": "npm run lint:src:fix && npm run lint:test",
+    "lint:src:fix": "eslint 'src/**/*.ts' --fix",
+    "lint:test:fix": "eslint 'test/**/*.ts' --fix",
+    "test": "jest",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist",
+    "scripts"
+  ],
+  "devDependencies": {
+    "@types/eslint": "^6.1.1",
+    "@types/expect-puppeteer": "^3.3.2",
+    "@types/jest": "^24.0.18",
+    "@types/jest-environment-puppeteer": "^4.3.1",
+    "@types/minimist": "^1.2.0",
+    "@types/node": "^12.11.2",
+    "@types/puppeteer": "^1.20.2",
+    "@typescript-eslint/eslint-plugin": "^2.3.2",
+    "@typescript-eslint/parser": "^2.3.2",
+    "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "jest": "^24.9.0",
+    "jest-puppeteer": "^4.3.0",
+    "prettier": "^1.18.2",
+    "puppeteer": "^1.20.0",
+    "rimraf": "^3.0.0",
+    "ts-jest": "^24.1.0",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "minimist": "^1.2.0"
+  }
+}

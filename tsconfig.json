@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["dom", "esnext"],
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "pretty": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "ES5",
+    "outDir": "./dist",
+    "typeRoots": ["./node_modules/@types/"]
+  },
+  "exclude": ["./node_modules/**/*", "./dist/**/*", "./test/**/*"]
+}
