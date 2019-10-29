@@ -1,6 +1,6 @@
 {
   "name": "screen-reader-reader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Node.js helper for getting screen reader output",
   "main": "dist/src/index.js",
   "typings": "dist/src/index.d.ts",
@@ -29,7 +29,8 @@
   },
   "files": [
     "dist",
-    "scripts"
+    "scripts",
+    "bin"
   ],
   "devDependencies": {
     "@types/eslint": "^6.1.1",
