@@ -24,13 +24,13 @@ This is _very_ much a work in progress! I would love your help to make this more
 
 ## Currently working
 
-- Turning on VoiceOver (Mac OS), reading VoiceOver output as text, tunring off VoiceOver.
-- Turning on NVDA (Windows), reading NVDA output as text, turning off NVDA.
+- Turning on VoiceOver (Mac OS), reading VoiceOver output as text, turning off VoiceOver.
+- Turning on [NVDA](https://www.nvaccess.org/) (Windows), reading NVDA output as text, turning off NVDA.
 
 ## Goals
 
 - More stability. There is some unexpected behaviour when running the tests with Puppeteer that I'm sure people with more screen reader experience will be able to explain.
-- More screen readers. It would be good to get this working with JAWS and other commonly used screen readers.
+- More screen readers. It would be good to get this working with [JAWS](https://www.freedomscientific.com/products/software/jaws/) and other commonly used screen readers.
 - Other things?
 
 ## Installation
