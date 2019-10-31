@@ -1,9 +1,19 @@
-import { getScriptPath } from '../get-script-path';
+import { existsSync } from 'fs';
+import * as path from 'path';
+
+import { SRRError, ErrorCodes } from '../errors';
 import { poll, UpdateStable } from '../poller';
 import { runScript, cleanUp } from '../run-script';
 import { ScreenReader, Stop } from './screenreader';
 
 const EXEC_VBSCRIPT = 'cscript';
+
+const DEFAULT_NDVA_PATH = path.join(
+  'C:/',
+  'Program Files (x86)',
+  'NVDA',
+  'nvda.exe'
+);
 
 const DEFAULT_FILTERS: Array<RegExp> = [];
 
@@ -13,7 +23,7 @@ export class NVDA extends ScreenReader {
   async start(): Promise<Stop> {
     this._screenreaderOutput = '';
 
-    await runScript(EXEC_VBSCRIPT, getScriptPath('nvda/enable-nvda.vbs'));
+    await runScript(EXEC_VBSCRIPT, 'nvda/enable-nvda.vbs');
 
     const clear = poll(this._options, updateStable => {
       this._pollScreenReader(updateStable);
@@ -22,7 +32,7 @@ export class NVDA extends ScreenReader {
     return async (waitForStable?: boolean): Promise<string> => {
       await clear(waitForStable);
 
-      await runScript(EXEC_VBSCRIPT, getScriptPath('nvda/disable-nvda.vbs'));
+      await runScript(EXEC_VBSCRIPT, 'nvda/disable-nvda.vbs');
 
       await cleanUp();
 
@@ -34,7 +44,7 @@ export class NVDA extends ScreenReader {
         .join(' ');
 
       if (result.length === 0) {
-        throw new Error('⚠️ No screenreader output ⚠️');
+        throw new SRRError(ErrorCodes.NO_SCREENREADER_OUTPUT);
       }
 
       return result;
@@ -42,7 +52,7 @@ export class NVDA extends ScreenReader {
   }
 
   private async _pollScreenReader(updateStable: UpdateStable): Promise<void> {
-    const text = await runScript(getScriptPath('nvda/get-nvda-text.exe'));
+    const text = await runScript('nvda/get-nvda-text.exe');
     if (text === null) {
       return;
     }
@@ -51,5 +61,9 @@ export class NVDA extends ScreenReader {
       this._screenreaderOutput = trimmedText;
       updateStable();
     }
+  }
+
+  static detect(): boolean {
+    return existsSync(DEFAULT_NDVA_PATH);
   }
 }

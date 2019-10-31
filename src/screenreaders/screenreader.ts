@@ -1,9 +1,16 @@
 import { Options } from '../options';
+import { SRRError, ErrorCodes } from '../errors';
 
 export type Stop = (waitForStable?: boolean) => Promise<string>;
 
-export abstract class ScreenReader {
+export class ScreenReader {
   constructor(protected _options: Options) {}
 
-  abstract async start(): Promise<Stop>;
+  start(): Promise<Stop> {
+    return Promise.reject(new SRRError(ErrorCodes.NOT_IMPLEMENTED, 'start'));
+  }
+
+  static detect(): boolean | Promise<boolean> {
+    return Promise.reject(new SRRError(ErrorCodes.NOT_IMPLEMENTED, 'detect'));
+  }
 }

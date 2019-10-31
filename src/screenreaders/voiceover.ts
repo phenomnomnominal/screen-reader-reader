@@ -1,4 +1,4 @@
-import { getScriptPath } from '../get-script-path';
+import { SRRError, ErrorCodes } from '../errors';
 import { poll, UpdateStable } from '../poller';
 import { runScript, cleanUp } from '../run-script';
 import { ScreenReader, Stop } from './screenreader';
@@ -41,7 +41,7 @@ export class VoiceOver extends ScreenReader {
         .join(' ');
 
       if (result.length === 0) {
-        throw new Error('⚠️No screenreader output ⚠️');
+        throw new SRRError(ErrorCodes.NO_SCREENREADER_OUTPUT);
       }
 
       return result;
@@ -49,13 +49,11 @@ export class VoiceOver extends ScreenReader {
   }
 
   private async _toggle(): Promise<string | null> {
-    return runScript(getScriptPath('voiceover/toggle-voiceover.js'));
+    return runScript('voiceover/toggle-voiceover.js');
   }
 
   private async _pollScreenReader(updateStable: UpdateStable): Promise<void> {
-    const text = await runScript(
-      getScriptPath('voiceover/get-voiceover-text.js')
-    );
+    const text = await runScript('voiceover/get-voiceover-text.js');
     if (text === null) {
       return;
     }
@@ -65,5 +63,9 @@ export class VoiceOver extends ScreenReader {
       this._lastText = trimmedText;
       updateStable();
     }
+  }
+
+  static detect(): boolean {
+    return process.platform === 'darwin';
   }
 }

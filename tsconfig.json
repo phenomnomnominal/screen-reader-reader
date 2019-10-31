@@ -3,6 +3,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
     "lib": ["dom", "esnext"],
     "moduleResolution": "node",
     "noEmitOnError": true,

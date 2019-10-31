@@ -1,42 +1,67 @@
-import { instantiateScreenReader } from './get-screenreader';
-import { Options, getOptions } from './options';
+import { instantiateScreenReader } from './screenreaders';
+import {
+  UnknownOptions,
+  validateScreenReaderName,
+  validatePollTimeout,
+  validateStableTimeout,
+  validateWaitForStable,
+  validateFilters,
+  validateMappers
+} from './options';
+import { ErrorCodes, SRRError, logError } from './errors';
 
 let reading = false;
 
 export async function startScreenReader(
-  options: Partial<Options> & { waitForStable: true }
+  options: UnknownOptions & { waitForStable: true }
 ): Promise<string>;
 
 export async function startScreenReader(
-  options: Partial<Options> & { waitForStable?: false }
+  options: UnknownOptions & { waitForStable?: false }
 ): Promise<() => Promise<string>>;
 
 export async function startScreenReader(
-  options: Partial<Options>
+  options: UnknownOptions
+): Promise<string | (() => Promise<string>)> {
+  try {
+    return tryStartScreenReader(options);
+  } catch (e) {
+    logError(e);
+    throw e;
+  }
+}
+
+async function tryStartScreenReader(
+  options: UnknownOptions
 ): Promise<string | (() => Promise<string>)> {
   if (reading) {
-    throw new Error(
-      'You can only have one screen reader reader running at a time'
-    );
+    throw new SRRError(ErrorCodes.CANT_START_WHILE_STARTED);
   }
 
   reading = true;
 
-  const finalOptions = getOptions(options);
+  const finalOptions = {
+    waitForStable: validateWaitForStable(options.waitForStable),
+    screenreader: validateScreenReaderName(options.screenreader),
+    pollTimeout: validatePollTimeout(options.pollTimeout),
+    stableTimeout: validateStableTimeout(options.stableTimeout),
+    filters: validateFilters(options.filters),
+    mappers: validateMappers(options.mappers)
+  };
 
   const screenreader = instantiateScreenReader(finalOptions);
 
   const stop = await screenreader.start();
 
   if (finalOptions.waitForStable) {
-    return await stopScreenReader(finalOptions.waitForStable);
+    return await tryStopScreenReader(finalOptions.waitForStable);
   }
 
-  return function(): Promise<string> {
-    return stopScreenReader();
+  return function stopScreenReader(): Promise<string> {
+    return tryStopScreenReader();
   };
 
-  async function stopScreenReader(waitForStable?: boolean): Promise<string> {
+  async function tryStopScreenReader(waitForStable?: boolean): Promise<string> {
     try {
       return await stop(waitForStable);
     } finally {
