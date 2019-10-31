@@ -5,6 +5,7 @@ import { ScreenReader, Stop } from './screenreader';
 
 const DEFAULT_FILTERS = [
   /\./,
+  /!/,
   /null/,
   /VoiceOver off/,
   /You are currently on a .*/,

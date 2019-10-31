@@ -27,25 +27,25 @@ const DEFAULT_FILTERS: Array<RegExp> = [];
 const DEFAULT_MAPPERS: Array<Mapper> = [];
 
 export function validateScreenReaderName(
-  screenReader?: unknown
+  screenreader?: unknown
 ): ScreenReaderName {
-  if (screenReader == null) {
+  if (screenreader == null) {
     return DEAFULT_SCREENREADER;
   }
   if (
-    !is.str(screenReader) ||
-    !screenReaderNames.includes(screenReader.toLowerCase())
+    is.str(screenreader) &&
+    screenReaderNames.includes(screenreader.toLowerCase())
   ) {
-    throw new SRRError(
-      ErrorCodes.INVALID_SCREENREADER_NAME,
-      screenReader,
-      screenReaderNames
-    );
+    return stringToScreenReaderName(screenreader);
   }
-  if (!is.str(screenReader)) {
-    return screenReader;
+  if (ScreenReaderName[screenreader as ScreenReaderName]) {
+    return screenreader as ScreenReaderName;
   }
-  return stringToScreenReaderName(screenReader);
+  throw new SRRError(
+    ErrorCodes.INVALID_SCREENREADER_NAME,
+    screenreader,
+    screenReaderNames
+  );
 }
 
 export function validatePollTimeout(pollTimeout?: unknown): number {
