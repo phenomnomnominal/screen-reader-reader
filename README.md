@@ -46,10 +46,16 @@ npm install screen-reader-reader --save-dev
 There is a very basic CLI. It will enable the given screen reader (or automatically detect one), and read the screen reader output until it is stable.
 
 ```sh
-screen-reader-reader
+npx screen-reader-reader
 ```
 
 ### JavaScript
+
+#### Import
+
+```js
+import { startScreenReader } from 'screen-reader-reader';
+```
 
 When using the API from JavaScript, there are two distinct modes:
 

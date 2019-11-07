@@ -41,12 +41,12 @@ async function tryStartScreenReader(
   reading = true;
 
   const finalOptions = {
-    waitForStable: validateWaitForStable(options.waitForStable),
-    screenreader: validateScreenReaderName(options.screenreader),
-    pollTimeout: validatePollTimeout(options.pollTimeout),
-    stableTimeout: validateStableTimeout(options.stableTimeout),
-    filters: validateFilters(options.filters),
-    mappers: validateMappers(options.mappers)
+    waitForStable: validateWaitForStable(options?.waitForStable),
+    screenreader: validateScreenReaderName(options?.screenreader),
+    pollTimeout: validatePollTimeout(options?.pollTimeout),
+    stableTimeout: validateStableTimeout(options?.stableTimeout),
+    filters: validateFilters(options?.filters),
+    mappers: validateMappers(options?.mappers)
   };
 
   const screenreader = instantiateScreenReader(finalOptions);

@@ -1,9 +1,9 @@
 {
   "name": "screen-reader-reader",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Node.js helper for getting screen reader output",
-  "main": "dist/src/index.js",
-  "typings": "dist/src/index.d.ts",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "author": "Craig Spence <craigspence0@gmail.com>",
   "repository": {
     "type": "git",
@@ -52,7 +52,7 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.4.1",
-    "typescript": "^3.6.4"
+    "typescript": "^3.7.2"
   },
   "dependencies": {
     "minimist": "^1.2.0",
